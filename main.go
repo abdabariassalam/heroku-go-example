@@ -20,7 +20,7 @@ func (a *app) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 
-	body := `{"Message": Hello ` + msg + "}" + "\n"
+	body := `{"Message": "Hello ` + msg + `"}` + "\n"
 	io.WriteString(w, body)
 	log.Printf("\"%s %s %s\" %d %d\n", r.Method, r.URL.Path, r.Proto, status, len(body))
 }
