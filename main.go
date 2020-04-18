@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"io"
 	"log"
 	"net/http"
@@ -23,7 +24,7 @@ func (a *app) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}{
 
 		Status:  "Success",
-		Message: "Hello "+msg,
+		Message: "Hello " + msg,
 	}
 
 	response, err := json.Marshal(payload)
@@ -31,12 +32,11 @@ func (a *app) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 
-
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 
-	io.WriteString(w, response)
-	log.Printf("\"%s %s %s\" %d %d\n", r.Method, r.URL.Path, r.Proto, status, len(body))
+	io.WriteString(w, payload.Message)
+	log.Printf("\"%s %s %s\" %d %d\n", r.Method, r.URL.Path, r.Proto, status, len(response))
 }
 
 func main() {
